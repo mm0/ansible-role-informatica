@@ -1,0 +1,80 @@
+---
+- name: Enable yum repo for installation of optional (required) packages
+  yum:
+    enablerepo: "{{ item.repo }}"
+    name: "{{ item.package }}"
+  become: yes
+  with_items:
+  - repo: rhel-6-server-optional-rpms
+    package: sharutils
+  - repo: rhel-7-server-optional-rpms
+    package: sharutils
+  ignore_errors: true
+
+- name: Install required packages for Informatica
+  package:
+    name: "{{ item }}"
+    state: present
+  become: yes
+  with_items:
+  - e2fsprogs-libs
+  - keyutils-libs
+  - libselinux
+  - libsepol
+  - tree
+  - ksh
+  - dos2unix
+  - curl
+#  - locales
+
+- name: Ensure ports aren't currently being used
+  wait_for:
+    port: "{{ item }}"
+    state: stopped
+  with_items:
+  - 6005
+  - 6006
+  - 6007
+  - 6008
+  - 6009
+  - 8085
+  - 8105
+  - 8095
+  - 10250
+  - 10370
+  - 16080
+  - 8084
+  - 7333
+
+- name: Ensure ports aren't currently being used cnt'd
+  wait_for:
+    port: "{{ item }}"
+    state: stopped
+  with_sequence: start=6013 end=6113 stride=1
+
+- name: Create required groups
+  group:
+    name: "{{ item.group}}"
+  with_items: "{{ informatica.users }}"
+  become: yes
+
+- name: Create required users
+  user:
+    name: "{{ item.user }}"
+    group: "{{ item.group }}"
+  with_items: "{{ informatica.users }}"
+  become: yes
+
+- name: Grant crontab privilege to ifadmin
+  lineinfile:
+    line: "ifadmin"
+    state: present
+    create: yes
+    dest: /etc/cron.allow
+  become: yes
+
+- name: Install UTF-8 locale if not installed
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+  become: yes

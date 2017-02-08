@@ -1,0 +1,4 @@
+---
+# tasks file for informatica
+- name: Prerequisites
+  include: 01-prerequisites.yml
