@@ -7,9 +7,6 @@
   with_items:
   - repo: rhel-6-server-optional-rpms
     package: sharutils
-  - repo: rhel-7-server-optional-rpms
-    package: sharutils
-  ignore_errors: true
 
 - name: Install required packages for Informatica
   package:
