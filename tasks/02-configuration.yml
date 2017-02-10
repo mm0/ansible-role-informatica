@@ -26,7 +26,7 @@
     mode: 755
   become: yes
 
-- name: Copy installer tar file to /opt/informatica961/sw
+- name: Copy installer tar file to "{{ informatica_directory }}"
   copy:
     src: "{{ informatica_archive }}"
     dest: "{{ informatica_directory }}"
@@ -36,7 +36,7 @@
     remote_src: yes
   become: yes
 
-- name: Copy license key to /opt/informatica961/sw
+- name: Copy license key to "{{ informatica_directory }}"
   copy:
     src: "{{ informatica_key_file }}"
     dest: "{{ informatica_directory }}"
@@ -46,7 +46,7 @@
     remote_src: yes
   become: yes
 
-- name: Extract the installer placed in /opt/informatica961/sw
+- name: Extract the installer placed in "{{ informatica_directory }}"
   unarchive:
     src: "{{ informatica_directory }}/{{ informatica_archive | basename }}"
     dest: "{{ informatica_directory }}"
