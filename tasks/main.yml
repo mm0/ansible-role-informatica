@@ -2,3 +2,9 @@
 # tasks file for informatica
 - name: Prerequisites
   include: 01-prerequisites.yml
+
+- name: Configuration
+  include: 02-configuration.yml
+
+- name: Installation
+  include: 03-installation.yml

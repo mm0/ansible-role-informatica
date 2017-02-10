@@ -1,0 +1,18 @@
+---
+- name: Modifiy the attached silent installer template and Copy prepared SilentInput.properties files to /opt/informatica961/sw
+  template:
+    src: "{{ informatica_silentinput_properties_file }}"
+    dest: "{{ informatica_directory }}/SilentInput.properties"
+    owner: "ifadmin"
+    group: "ifadmin"
+    mode: 0644
+    remote_src: yes
+  become: yes
+
+- name: 11.	Run  silentinstall.sh from /opt/informatica961/sw and enter “y” when it asks to continue installation.
+  shell:
+    command: ./silentinstall.sh
+    chdir: "{{ informatica_directory }}"
+  become_user: ifadmin
+  become: yes
+#- name: 12.	Uncomment below variables from .bash_profile

@@ -1,0 +1,54 @@
+---
+- name: Prepare Bash profile
+  template:
+    dest: "/home/{{ item.user }}/.bash_profile"
+    src: ".bash_profile.j2"
+    owner: "{{ item.user }}"
+    group: "{{ item.group }}"
+  with_items: "{{ informatica.users }}"
+  become: yes
+
+- name: Create directories 1/2
+  file:
+    state: directory
+    dest: /opt/informatica961/sw
+    owner: "ifadmin"
+    group: "ifadmin"
+    mode: 700
+  become: yes
+
+- name: Create directories 2/2
+  file:
+    state: directory
+    dest: /opt/informatica961/install_dir
+    owner: "ifadmin"
+    group: "ifadmin"
+    mode: 755
+  become: yes
+
+- name: Copy installer tar file to /opt/informatica961/sw
+  copy:
+    src: "{{ informatica_archive }}"
+    dest: "{{ informatica_directory }}"
+    owner: "ifadmin"
+    group: "ifadmin"
+    mode: 0644
+    remote_src: yes
+  become: yes
+
+- name: Copy license key to /opt/informatica961/sw
+  copy:
+    src: "{{ informatica_key_file }}"
+    dest: "{{ informatica_directory }}"
+    owner: "ifadmin"
+    group: "ifadmin"
+    mode: 0644
+    remote_src: yes
+  become: yes
+
+- name: Extract the installer placed in /opt/informatica961/sw
+  unarchive:
+    src: "{{ informatica_directory }}/{{ informatica_archive | basename }}"
+    dest: "{{ informatica_directory }}"
+    copy: no
+  become: yes

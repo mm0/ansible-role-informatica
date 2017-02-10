@@ -25,6 +25,9 @@
   - ksh
   - dos2unix
   - curl
+  - libselinux-python
+#  - python34-setuptools
+  - pexpect
 #  - locales
 
 - name: Ensure ports aren't currently being used
@@ -73,8 +76,19 @@
     dest: /etc/cron.allow
   become: yes
 
-- name: Install UTF-8 locale if not installed
-  locale_gen:
-    name: en_US.UTF-8
-    state: present
-  become: yes
+#- name: Install UTF-8 locale if not installed
+#  locale_gen:
+#    name: en_US.UTF-8
+#    state: present
+#  become: yes
+
+- name: Set server timezone
+  become: true
+  file:
+    dest: /etc/localtime
+    state: link
+    src: "/usr/share/zoneinfo/{{ informatica_timezone }}"
+    owner: root
+    group: root
+    mode: 644
+    force: true

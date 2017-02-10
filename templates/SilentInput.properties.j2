@@ -1,0 +1,416 @@
+# Use the following guidelines when editing this file:
+# * Use this file to install without user interaction. Save the file
+#   with the following name:  SilentInput.properties
+# * Any error condition that leads to failure, such as an invalid
+#   installation directory, generates a log file in the user home
+#   directory. For example: /home/<user name>/silentErrorLog.log
+
+##########################################################
+# Informatica Installer Build Details
+# Copyright (c) Informatica Corporation 1998 - 2015
+# This software contains confidential and proprietary
+# information of Informatica Corporation.
+# All Rights Reserved.
+##########################################################
+
+
+#######
+# Use this file (SilentInput.properties) to install Informatica services without user interaction.
+#     Use this sample properties file to define the parameters for the silent installation.
+#     To upgrade Informatica, use the SilentInput_upgrade.properties or SilentInput_upgrade_NewConfig.properties file.
+# Use the following guidelines when you edit this file:
+#     Back up the file before you modify it.
+#     Any error condition that causes the installation to fail, such as an installation directory that is not valid,
+#     generates a log file in /home/<user name>. For example: /home/informatica/silentErrorLog.log
+#######
+
+
+# Set ENABLE_USAGE_COLLECTION  to 1 to accept the product usage toolkit end user license agreement.
+# You must set the value as 1 to install the Informatica platform.
+# The product usage toolkit end user license agreement is available at: http://www.informatica.com/us/eula/en-support-eula.aspx.
+# As further described in the EULA, your use of the Informatica platform will enable the product usage toolkit
+# to collect certain product usage and failure information. You may disable this feature at any time.
+# For more information on how to disable this feature refer the Informatica Administrator Guide.
+
+ENABLE_USAGE_COLLECTION={{ informatica_enable_usage_collection }}
+
+
+# The LICENSE_KEY_LOC property represents the absolute path and file name of the license key file.
+#     Set the property if you are installing or upgrading Informatica.
+
+LICENSE_KEY_LOC={{ informatica_directory }}/{{ informatica_key_file | basename }}
+
+
+# The USER_INSTALL_DIR property represents the directory in which to install the new version of Informatica.
+#     Set the property if you are installing or upgrading Informatica.
+#     The property must point to a valid directory with write permissions enabled.
+
+USER_INSTALL_DIR={{ informatica_directory }}
+
+
+# The INSTALL_TYPE property determines whether to install or upgrade Informatica.
+#     Set INSTALL_TYPE=0 to perform a new installation of Informatica.
+#     To upgrade Informatica, use the SilentInput_upgrade.properties file.
+#     To upgrade Informatica to a different node configuration, use the SilentInput_upgrade_NewConfig.properties file.
+
+INSTALL_TYPE=0
+
+# Provide Kerberos Network Authentication parameters:
+
+#To configure the Informatica domain to run on a network with Kerberos authentication, set this parameter to 1.
+ENABLE_KERBEROS=0
+
+#Name of the Kerberos realm to which the Informatica domain services belong. The service realm name and the user realm name must be the same.
+SERVICE_REALM_NAME=
+
+#Name of the Kerberos realm to which the Informatica domain users belong. The service realm name and the user realm name must be the same.
+USER_REALM_NAME=
+
+#Directory where all keytab files for the Informatica domain are stored. The name of a keytab file in the Informatica domain must follow a format set by Informatica.
+KEYTAB_LOCATION=
+
+#Path and file name of the Kerberos configuration file. Informatica requires the following name for the Kerberos configuration file: krb5.conf
+KRB5_FILE_LOCATION=
+
+
+# The SPN_SHARE_LEVEL property determines whether the service principal level for the domain is Node or Process.
+#     Value  NODE       Use Node Level. Configure the domain to share SPNs and keytab files on a node.
+#     Value  PROCESS    Use Process Level. Configure the domain to use a unique service principal name (SPN) and keytab file for each node and each service on a node.
+
+SPN_SHARE_LEVEL=
+
+
+# The HTTPS_ENABLED property determines whether to secure the connection to Informatica Administrator.
+#     Value     0     Use HTTP connection. Set up an unsecure HTTP connection to Informatica Administrator.
+#     Value     1     Use HTTPS connection. Set up a secure HTTPS connection to the Informatica Administrator.
+
+HTTPS_ENABLED=0
+
+
+# The DEFAULT_HTTPS_ENABLED property determines whether the installer creates a keystore file.
+#     Set the property if HTTPS_ENABLED=1 (uses HTTPS connection).
+#     Value     0     Use a keystore file that you specify.
+#     Value     1     Create a keystore and use it for the HTTPS connection.
+
+DEFAULT_HTTPS_ENABLED=1
+
+
+# The CUSTOM_HTTPS_ENABLED property determines whether the installer uses an existing keystore file.
+#     Value    0     Set the property to 0 if DEFAULT_HTTPS_ENABLED=1.
+#     Value    1     Install Informatica using a keystore file that you specify. Set the property to 1 if DEFAULT_HTTPS_ENABLED=0.
+
+CUSTOM_HTTPS_ENABLED=0
+
+
+# The KSTORE_PSSWD property represents the password for the keystore file.
+#     Set the property to the plain text password for the keystore file if CUSTOM_HTTPS_ENABLED=1.
+
+KSTORE_PSSWD=MyKeystorePassword
+
+
+# The KSTORE_PSSWD property represents the password for the keystore file in plain text.
+#     Set the property to the absolute path and file name of the keystore file if CUSTOM_HTTPS_ENABLED=1.
+
+KSTORE_FILE_LOCATION=/home/MyKeystoreFile
+
+
+# The HTTPS_PORT property represents the port number to use for the secure connection to Informatica Administrator.
+
+HTTPS_PORT=8443
+
+
+# The CREATE_DOMAIN property determines whether to create an Informatica domain.
+#     Value    0     Create a node and join the node to another domain created in a previous installation. Set the property to 0 if JOIN_DOMAIN=1.
+#     Value    1     Create a node and an Informatica domain.
+
+CREATE_DOMAIN=1
+
+
+
+# The directory to store the encryption key on the node created during the installation.
+KEY_DEST_LOCATION=/home/Informatica/9.6.1/isp/config/keys
+
+#Keyword to use to create an encryption key to secure sensitive data in the domain. Set the property only when you create a domain.
+# The keyword must meet the following criteria:-
+# From 8 to 20 characters long-
+# Includes at least one uppercase letter-
+# Includes at least one lowercase letter-
+# Includes at least one number-
+# Does not contain spaces
+
+PASS_PHRASE_PASSWD=
+
+
+
+# The JOIN_DOMAIN property determines whether to join the node to another domain created in a previous installation.
+#     Value    0     Create a node and an Informatica domain. Set the property to 0 if CREATE_DOMAIN=1.
+#     Value    1     Create a node and join the node to another domain created in a previous installation. Set the property to 1 if CREATE_DOMAIN=0.
+
+
+
+
+JOIN_DOMAIN=0
+
+
+
+# Directory that contains the encryption key on the master gateway node of the Informatica domain that you want to join.
+KEY_SRC_LOCATION=/home/temp/siteKey
+
+
+# The SSL_ENABLED property enables or disables Transport Layer Security (TLS).
+#     Set the property to true to enable secure communication between services within the domain.
+#     Set the property to true or false if CREATE_DOMAIN=1.
+#     The property will not be used if JOIN_DOMAIN=1, as the node will get added on the basis of domain security.
+
+SSL_ENABLED=false
+
+#	  The property SECURITY_DOMAIN_NAME represents the LDAP name for the Kerberos enabled domain
+#     Set the property if JOIN_DOMAIN=1 and ENABLE_KERBEROS=1
+
+SECURITY_DOMAIN_NAME=
+
+#################################################
+#Provide TLS information for domain. Set TLS_CUSTOM_SELECTION equals to true if you want domain level TLS option.
+
+TLS_CUSTOM_SELECTION=false
+################################
+#Below fields are only required when you set  TLS_CUSTOM_SELECTION=true
+NODE_KEYSTORE_DIR=/home/<username>/temp
+NODE_KEYSTORE_PASSWD=
+NODE_TRUSTSTORE_DIR=/home/<username>/temp
+NODE_TRUSTSTORE_PASSWD=
+
+
+# The SERVES_AS_GATEWAY property determines whether to create a gateway or worker node.
+#     Set the property if JOIN_DOMAIN=1.
+#     Value    0    The installer configures the node as a worker node.
+#     Value    1    The installer configures the node as a gateway node.
+
+SERVES_AS_GATEWAY=0
+
+
+# The DB_TYPE property represents the database type for the domain configuration database.
+#     Set the property to one of the following database types (case-sensitive): Oracle, MSSQLServer, DB2, or Sybase
+
+DB_TYPE={{ informatica.db.type }}
+
+
+# The DB_UNAME property represents the database user account name for the domain configuration repository.
+
+DB_UNAME={{ informatica.db.username }}
+
+
+# The DB_PASSWD property represents the database password for the database user account.
+
+DB_PASSWD={{ informatica.db.password }}
+
+# The DB_SSL_ENABLED property represents whether the database is in SSL mode or not.
+#Set the property to "true" if you want to enable secure communication.
+# Also if this property is set to true then DB_CUSTOM_STRING_SELECTION property must be set to 1 to use
+#only custom string option property DB_CUSTOM_STRING which should include the following secure DB parameters:
+#EncryptionMethod=SSL;HostNameInCertificate=;ValidateServerCertificate=
+
+DB_SSL_ENABLED=false
+
+# The TRUSTSTORE_DB_FILE and TRUSTSTORE_DB_PASSWD properties to be set only if enable secure communication
+#for the DB property i.e DB_SSL_ENABLED=true
+# Set the TRUSTSTORE_DB_FILE property to the location of the trust store file for the DB
+# Set the TRUSTSTORE_DB_PASSWD as a password of the trust store file for the DB
+
+
+TRUSTSTORE_DB_FILE=
+
+TRUSTSTORE_DB_PASSWD=
+
+
+# The SQLSERVER_SCHEMA_NAME property represents the name of the schema that will contain domain configuration tables.
+#     Set the property if DB_TYPE=MSSQLServer.
+#     If SQLSERVER_SCHEMA_NAME is empty, the installer creates the tables in the default schema.
+
+SQLSERVER_SCHEMA_NAME=
+
+
+# The TRUSTED_CONNECTION property determines whether to connect to the Microsoft SQL Server database through a
+#  trusted connection using the Windows credentials of the current user account.
+# In Create domain scenario ,when CREATE_DOMAIN=1
+	#     Set the property if DB_TYPE=MSSQLServer and you are installing on Windows.
+	#     Set TRUSTED_CONNECTION=0 if DB_TYPE is set to another database type or if you are installing Informatica on Linux or UNIX.
+	#     If the property is empty, the installer uses Microsoft SQL Server authentication.
+	#     Value    0     Connect to the Microsoft SQL Server database using a Microsoft SQL Server user account.
+	#     Value    1     Connect to the Microsoft SQL Server database through a trusted connection using the Windows credentials of the current user account.
+#     In join node scenario, when JOIN_DOMAIN=1
+	#     Set this value to empty,for all cases.
+
+
+
+
+TRUSTED_CONNECTION=
+
+
+# The DB2_TABLESPACE property represents the name of the tablespace in which to create the tables.
+#     Set the property if DB_TYPE=DB2.
+#     Specify a tablespace that meets the pageSize requirement of 32768 bytes.
+#     In a single-partition database, if DB2_TABLESPACE is empty, the installer creates the tables in the default tablespace.
+#     In a multi-partition database, define the tablespace in the catalog partition of the database.
+
+DB2_TABLESPACE=
+
+
+# The DB_CUSTOM_STRING_SELECTION property determines whether to use a JDBC URL or a custom connection string to connect to the domain configuration database.
+#     Set DB_CUSTOM_STRING_SELECTION=1 if TRUSTED_CONNECTION=1. Also provide the default valid connection string in DB_CUSTOM_STRING.
+#     Value    0     The installer creates a JDBC URL from the database properties you provide
+#     Value    1     The installer uses the custom connection string you provide.
+
+DB_CUSTOM_STRING_SELECTION=0
+
+
+# The DB_SERVICENAME property represents the service name or database name of the database.
+#     Set the property if DB_CUSTOM_STRING_SELECTION=0.
+#     Set the property to the service name for Oracle and IBM DB2 databases.
+#     Set the property to the database name for Microsoft SQL Server and Sybase ASE databases.
+#     Leave the property blank if DB_CUSTOM_STRING_SELECTION=1.
+
+DB_SERVICENAME=DBServiceName
+
+
+# The DB_ADDRESS property represents the host name and port number for the database instance.
+#     Set the property if DB_CUSTOM_STRING_SELECTION=0.
+#     Set the property in the format HostName:PortNumber.
+#     Leave the property blank if DB_CUSTOM_STRING_SELECTION=1.
+
+DB_ADDRESS=HostName:PortNumber
+
+
+# The ADVANCE_JDBC_PARAM property represents additional parameters in the JDBC URL connection string.
+#     If DB_CUSTOM_STRING_SELECTION=0, you can set the property to include optional parameters in the JDBC URL connection string.
+#     The parameter string must be valid.
+#     If the parameter is empty, the installer creates the JDBC URL without additional parameters.
+
+ADVANCE_JDBC_PARAM=
+
+
+# The DB_CUSTOM_STRING property represents a valid custom JDBC connection string.
+#     Set the property if DB_CUSTOM_STRING_SELECTION=1.
+
+DB_CUSTOM_STRING=
+
+
+# The DOMAIN_NAME property represents the name of the domain to create. The default domain name is Domain_<MachineName>.
+#     Set the property if CREATE_DOMAIN=1.
+#     The domain name must not exceed 128 characters and must be 7-bit ASCII only. It cannot contain a space or any of the following characters: ` % * + ; " ? , < > \ /
+
+DOMAIN_NAME=DomainName
+
+
+# The DOMAIN_HOST_NAME property represents the host name of the machine.
+#     * If you create a domain, this is the host name of the machine on which to create the node.
+#         If the machine has a single network name, use the default host name.
+#         If the machine has multiple network names, you can modify the default host name to use an alternate network name. Optionally, you can use the IP address.
+#     * If you join a domain, this is the host name of the machine that hosts the gateway node of the domain you want to join.
+#     Do not use localhost. The host name must explicitly identify the machine.
+
+DOMAIN_HOST_NAME=HostName
+
+
+# The NODE_NAME property represents the node to create on the machine. The node name is not the host name for the machine.
+
+NODE_NAME=NodeName
+
+
+# The DOMAIN_PORT property represents the port number.
+#     * If you create a domain, set the property to the port number for the node to create.
+#         The default port number for the node is 6005.
+#         If the default port number is not available on the machine, the installer displays the next available port number.
+#     * If you join a domain, set the property to the port number of the gateway node of the domain you want to join.
+
+DOMAIN_PORT=
+
+
+# The DOMAIN_USER property represents the user name for the domain administrator.
+#     If you create a domain, you can use this user name to initially log in to the Informatica Administrator.
+#     If you join a domain, this is the user name to use to log in to the domain that you want to join.
+
+DOMAIN_USER=AdminUser
+
+
+# The DOMAIN_PSSWD property represents the password for the domain administrator.
+#     The password must be more than 2 characters but cannot exceed 128 characters.
+
+DOMAIN_PSSWD=
+
+
+# The DOMAIN_CNFRM_PSSWD property confirms the password you set for the domain administrator.
+#     Set the property to the password you set in the DOMAIN_PSSWD property to confirm the password.
+
+DOMAIN_CNFRM_PSSWD=
+
+
+# The JOIN_NODE_NAME property represents the name of the node to create on this machine. The node name is not the host name for the machine.
+#     Set the property if JOIN_DOMAIN=1.
+
+JOIN_NODE_NAME=NodeName
+
+
+# The JOIN_HOST_NAME property represents the host name of the machine that hosts the gateway node of the domain you want to join.
+#     Set the property if JOIN_DOMAIN=1.
+
+JOIN_HOST_NAME=DomainHostName
+
+
+# The JOIN_DOMAIN_PORT property represents the port number of the gateway node of the domain you want to join.
+#     Set the property if JOIN_DOMAIN=1.
+
+JOIN_DOMAIN_PORT=
+
+
+# The ADVANCE_PORT_CONFIG property determines whether to display the list of port numbers for the domain and node components.
+#     If ADVANCE_PORT_CONFIG=1, set the MIN_PORT, MAX_PORT, TOMCAT_PORT, AC_PORT, SERVER_PORT, and AC_SHUTDWN_PORT properties.
+#     Value     0     The installer assigns default port numbers to the domain and node components.
+#     Value     1     You can manually set the port numbers for the domain and node components.
+
+ADVANCE_PORT_CONFIG=0
+
+
+# The MIN_PORT property represents the lowest port number in the range of port numbers that can be assigned to the application service processes that run on this node.
+#     Set the property if ADVANCE_PORT_CONFIG=1.
+
+MIN_PORT=
+
+
+# The MAX_PORT property represents the highest port number in the range of port numbers that can be assigned to the application service processes that run on this node.
+#     Set the property if ADVANCE_PORT_CONFIG=1.
+
+MAX_PORT=
+
+
+# The TOMCAT_PORT property represents the port number used by the Service Manager on the node. Default is 6006.
+#     Set the property if ADVANCE_PORT_CONFIG=1.
+#     The Service Manager listens for incoming connection requests on this port.
+#     Client applications use this port to communicate with the services in the domain.
+#     This is the port that the Informatica command line programs use to communicate with the domain.
+#     This is also the port for the SQL data service JDBC/ODBC driver.
+
+TOMCAT_PORT=
+
+
+# The AC_PORT property represents the port number used by Informatica Administrator. Default is 6007.
+#     Set the property if CREATE_DOMAIN=1 and ADVANCE_PORT_CONFIG=1.
+
+AC_PORT=
+
+
+# The SERVER_PORT property controls the server shutdown for the domain Service Manager. The Service Manager listens for shutdown commands on this port. Default is 6008.
+#     Set the property if ADVANCE_PORT_CONFIG=1.
+
+SERVER_PORT=
+
+
+# The AC_SHUTDWN_PORT property represents the port number that controls the server shutdown for Informatica Administrator. Default is 6009.
+#     Set the property if ADVANCE_PORT_CONFIG=1.
+#     Informatica Administrator listens for shutdown commands on this port.
+
+AC_SHUTDWN_PORT=
+
+# The CLOUD_SUPPORT_ENABLE property is to support the installation on cloud and valid only for silent cases.
+# Set the property to 1 only for cloud based installations support don't edit this property otherwise.
+CLOUD_SUPPORT_ENABLE=0

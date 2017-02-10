@@ -1,0 +1,41 @@
+#!/bin/bash
+# Source global definitions
+
+# User specific aliases and functions
+unset USERNAME
+export EDITOR=vi
+set -o vi
+umask 022
+
+ulimit -c unlimited
+ulimit -d unlimited
+ulimit -s unlimited
+ulimit -v unlimited
+
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+#Informatica:
+#export INFA_HOME=/opt/informatica961/install_dir
+#export INFA_DOMAINS_FILE=${INFA_HOME}/domains.infa
+#export PATH=${PATH}:${INFA_HOME}/server/bin
+export IATEMPDIR=/tmp
+#export TOMCAT=${INFA_HOME}/tomcat
+#export JAVA_HOME=${INFA_HOME}/java
+export INFA_CODEPAGENAME=UTF-8
+
+#Oracle
+export ORACLE_BASE=/u00/app/oracle
+export ORACLE_HOME=${ORACLE_BASE}/product/11203/client_1
+export NLS_LANG=AMERICAN_AMERICA.AL32UTF8
+
+# ODBC:
+#export ODBCHOME=${INFA_HOME}/ODBC7.1
+#export ODBCINI=${ODBCHOME}/odbc.ini
+
+export LD_LIBRARY_PATH==/usr/lib64:/usr/lib:/lib64:/lib:${ORACLE_HOME}/lib:${INFA_HOME}/server/bin:${INFA_HOME}:${ODBCHOME}/lib:${LD_LIBRARY_PATH}:.
+
+export PATH=${JAVA_HOME}/jre/bin:${ORACLE_HOME}/bin:${ODBCHOME}/bin:/usr/local/bin:/bin:/usr/bin:${PATH}:.
+
+# INFA admin scripts
+export ADMIN_SCRIPTS_HOME=/data/infadm/infa_admin_scripts

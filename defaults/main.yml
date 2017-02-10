@@ -6,3 +6,17 @@ informatica:
     group: ifadmin
   - user: ifuser
     group: ifuser
+  db:
+    type: Oracle # Oracle/MSSQLServer/DB2/Sybase
+    username:
+    password:
+
+informatica_archive: /mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-x64.tar
+informatica_key_file: /mnt/nfs/ansible/informatica/Farmers_Group_Inc_MultiOS_AE-DQAE-BDMA-BDGOV_v961_DEV_0124906_133622.key
+
+informatica_directory: /opt/informatica961/sw
+informatica_timezone: America/Los_Angeles
+
+informatica_silentinput_properties_file: SilentInput.properties.j2
+
+informatica_enable_usage_collection: 1
