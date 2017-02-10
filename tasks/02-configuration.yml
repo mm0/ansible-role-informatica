@@ -11,7 +11,7 @@
 - name: Create directories 1/2
   file:
     state: directory
-    dest: /opt/informatica961/sw
+    dest: "{{ informatica_directory }}"
     owner: "ifadmin"
     group: "ifadmin"
     mode: 700
@@ -20,7 +20,7 @@
 - name: Create directories 2/2
   file:
     state: directory
-    dest: /opt/informatica961/install_dir
+    dest: "{{ informatica_install_directory }}"
     owner: "ifadmin"
     group: "ifadmin"
     mode: 755

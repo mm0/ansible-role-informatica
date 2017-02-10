@@ -15,6 +15,7 @@ informatica_archive: /mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-
 informatica_key_file: /mnt/nfs/ansible/informatica/Farmers_Group_Inc_MultiOS_AE-DQAE-BDMA-BDGOV_v961_DEV_0124906_133622.key
 
 informatica_directory: /opt/informatica961/sw
+informatica_install_directory: /opt/informatica961/install_dir
 informatica_timezone: America/Los_Angeles
 
 informatica_silentinput_properties_file: SilentInput.properties.j2
