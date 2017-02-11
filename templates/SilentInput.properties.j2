@@ -84,7 +84,7 @@ SPN_SHARE_LEVEL=
 #     Value     0     Use HTTP connection. Set up an unsecure HTTP connection to Informatica Administrator.
 #     Value     1     Use HTTPS connection. Set up a secure HTTPS connection to the Informatica Administrator.
 
-HTTPS_ENABLED=0
+HTTPS_ENABLED=1
 
 
 # The DEFAULT_HTTPS_ENABLED property determines whether the installer creates a keystore file.
@@ -105,13 +105,13 @@ CUSTOM_HTTPS_ENABLED=0
 # The KSTORE_PSSWD property represents the password for the keystore file.
 #     Set the property to the plain text password for the keystore file if CUSTOM_HTTPS_ENABLED=1.
 
-KSTORE_PSSWD=MyKeystorePassword
+KSTORE_PSSWD=
 
 
 # The KSTORE_PSSWD property represents the password for the keystore file in plain text.
 #     Set the property to the absolute path and file name of the keystore file if CUSTOM_HTTPS_ENABLED=1.
 
-KSTORE_FILE_LOCATION=/home/MyKeystoreFile
+KSTORE_FILE_LOCATION=
 
 
 # The HTTPS_PORT property represents the port number to use for the secure connection to Informatica Administrator.
@@ -128,7 +128,7 @@ CREATE_DOMAIN=1
 
 
 # The directory to store the encryption key on the node created during the installation.
-KEY_DEST_LOCATION=/home/Informatica/9.6.1/isp/config/keys
+KEY_DEST_LOCATION={{  informatica_encryption_key_directory }}
 
 #Keyword to use to create an encryption key to secure sensitive data in the domain. Set the property only when you create a domain.
 # The keyword must meet the following criteria:-
@@ -138,7 +138,7 @@ KEY_DEST_LOCATION=/home/Informatica/9.6.1/isp/config/keys
 # Includes at least one number-
 # Does not contain spaces
 
-PASS_PHRASE_PASSWD=
+PASS_PHRASE_PASSWD={{  informatica.keystore_password }}
 
 
 
@@ -186,7 +186,7 @@ NODE_TRUSTSTORE_PASSWD=
 #     Value    0    The installer configures the node as a worker node.
 #     Value    1    The installer configures the node as a gateway node.
 
-SERVES_AS_GATEWAY=0
+SERVES_AS_GATEWAY={{ informatica.serves_as_gateway }}
 
 
 # The DB_TYPE property represents the database type for the domain configuration database.
@@ -270,7 +270,7 @@ DB_CUSTOM_STRING_SELECTION=0
 #     Set the property to the database name for Microsoft SQL Server and Sybase ASE databases.
 #     Leave the property blank if DB_CUSTOM_STRING_SELECTION=1.
 
-DB_SERVICENAME=DBServiceName
+DB_SERVICENAME={{ informatica.db.servicename }}
 
 
 # The DB_ADDRESS property represents the host name and port number for the database instance.
@@ -278,7 +278,7 @@ DB_SERVICENAME=DBServiceName
 #     Set the property in the format HostName:PortNumber.
 #     Leave the property blank if DB_CUSTOM_STRING_SELECTION=1.
 
-DB_ADDRESS=HostName:PortNumber
+DB_ADDRESS={{ informatica.db.address }}
 
 
 # The ADVANCE_JDBC_PARAM property represents additional parameters in the JDBC URL connection string.
@@ -286,7 +286,7 @@ DB_ADDRESS=HostName:PortNumber
 #     The parameter string must be valid.
 #     If the parameter is empty, the installer creates the JDBC URL without additional parameters.
 
-ADVANCE_JDBC_PARAM=
+ADVANCE_JDBC_PARAM="MaxPooledStatements=20;CatalogOptions=0;BatchPerformanceWorkaround=true"
 
 
 # The DB_CUSTOM_STRING property represents a valid custom JDBC connection string.
@@ -299,7 +299,7 @@ DB_CUSTOM_STRING=
 #     Set the property if CREATE_DOMAIN=1.
 #     The domain name must not exceed 128 characters and must be 7-bit ASCII only. It cannot contain a space or any of the following characters: ` % * + ; " ? , < > \ /
 
-DOMAIN_NAME=DomainName
+DOMAIN_NAME={{ informatica.domain.name }}
 
 
 # The DOMAIN_HOST_NAME property represents the host name of the machine.
@@ -309,12 +309,12 @@ DOMAIN_NAME=DomainName
 #     * If you join a domain, this is the host name of the machine that hosts the gateway node of the domain you want to join.
 #     Do not use localhost. The host name must explicitly identify the machine.
 
-DOMAIN_HOST_NAME=HostName
+DOMAIN_HOST_NAME={{ informatica.domain.hostname }}
 
 
 # The NODE_NAME property represents the node to create on the machine. The node name is not the host name for the machine.
 
-NODE_NAME=NodeName
+NODE_NAME={{ informatica.nodename }}
 
 
 # The DOMAIN_PORT property represents the port number.
@@ -323,26 +323,26 @@ NODE_NAME=NodeName
 #         If the default port number is not available on the machine, the installer displays the next available port number.
 #     * If you join a domain, set the property to the port number of the gateway node of the domain you want to join.
 
-DOMAIN_PORT=
+DOMAIN_PORT={{ informatica.domain.port }}
 
 
 # The DOMAIN_USER property represents the user name for the domain administrator.
 #     If you create a domain, you can use this user name to initially log in to the Informatica Administrator.
 #     If you join a domain, this is the user name to use to log in to the domain that you want to join.
 
-DOMAIN_USER=AdminUser
+DOMAIN_USER={{ informatica.domain.user }}
 
 
 # The DOMAIN_PSSWD property represents the password for the domain administrator.
 #     The password must be more than 2 characters but cannot exceed 128 characters.
 
-DOMAIN_PSSWD=
+DOMAIN_PSSWD={{ informatica.domain.password }}
 
 
 # The DOMAIN_CNFRM_PSSWD property confirms the password you set for the domain administrator.
 #     Set the property to the password you set in the DOMAIN_PSSWD property to confirm the password.
 
-DOMAIN_CNFRM_PSSWD=
+DOMAIN_CNFRM_PSSWD={{ informatica.domain.cnfrm_password }}
 
 
 # The JOIN_NODE_NAME property represents the name of the node to create on this machine. The node name is not the host name for the machine.

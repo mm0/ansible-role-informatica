@@ -51,4 +51,6 @@
     src: "{{ informatica_directory }}/{{ informatica_archive | basename }}"
     dest: "{{ informatica_directory }}"
     copy: no
+    owner: "ifadmin"
+    group: "ifadmin"
   become: yes

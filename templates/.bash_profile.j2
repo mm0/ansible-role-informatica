@@ -16,12 +16,12 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 #Informatica:
-#export INFA_HOME=/opt/informatica961/install_dir
-#export INFA_DOMAINS_FILE=${INFA_HOME}/domains.infa
-#export PATH=${PATH}:${INFA_HOME}/server/bin
-export IATEMPDIR=/tmp
-#export TOMCAT=${INFA_HOME}/tomcat
-#export JAVA_HOME=${INFA_HOME}/java
+export INFA_HOME={{  informatica_install_directory }}
+export INFA_DOMAINS_FILE=${INFA_HOME}/domains.infa
+export PATH=${PATH}:${INFA_HOME}/server/bin
+export IATEMPDIR={{ informatica_temp_directory }}
+export TOMCAT=${INFA_HOME}/tomcat
+export JAVA_HOME=${INFA_HOME}/java
 export INFA_CODEPAGENAME=UTF-8
 
 #Oracle

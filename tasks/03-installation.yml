@@ -11,8 +11,8 @@
 
 - name: 11.	Run  silentinstall.sh from /opt/informatica961/sw and enter “y” when it asks to continue installation.
   shell:
-    command: ./silentinstall.sh
+    command: "IATEMPDIR={{ informatica_temp_directory }} ./silentinstall.sh"
     chdir: "{{ informatica_directory }}"
   become_user: ifadmin
   become: yes
-#- name: 12.	Uncomment below variables from .bash_profile
+  when: False
