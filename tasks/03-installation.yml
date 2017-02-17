@@ -1,18 +1,29 @@
 ---
-- name: Modifiy the attached silent installer template and Copy prepared SilentInput.properties files to /opt/informatica961/sw
+- name: "Modify the attached silent installer template and Copy prepared SilentInput.properties files to {{ informatica_directory }}"
   template:
-    src: "{{ informatica_silentinput_properties_file }}"
+    src: "{{ informatica.silentinput_properties_file }}"
     dest: "{{ informatica_directory }}/SilentInput.properties"
-    owner: "ifadmin"
-    group: "ifadmin"
+    owner: "{{ informatica.owner }}"
+    group: "{{ informatica.group }}"
     mode: 0644
     remote_src: yes
   become: yes
 
-- name: 11.	Run  silentinstall.sh from /opt/informatica961/sw and enter “y” when it asks to continue installation.
-  shell:
-    command: "IATEMPDIR={{ informatica_temp_directory }} ./silentinstall.sh"
+- name: "Update permissions"
+  file:
+    path: "{{ item }}"
+    owner: "{{ informatica.owner }}"
+    group: "{{ informatica.group }}"
+    state: directory
+    recurse: yes
+    mode: "o-rx"
+  with_items:
+    - "{{ informatica.base_directory }}"
+
+- name: "Run  silentinstall.sh from {{ informatica_directory }}"
+  shell: ./silentinstall.sh
+  args:
     chdir: "{{ informatica_directory }}"
-  become_user: ifadmin
+  environment:
+  - IATEMPDIR: "{{ informatica_temp_directory }}"
   become: yes
-  when: False

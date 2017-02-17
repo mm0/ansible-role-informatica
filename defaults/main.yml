@@ -1,6 +1,10 @@
 ---
+environment_name: Dev1
+
 # defaults file for informatica
 informatica:
+  owner: ifadmin
+  group: ifadmin
   users:
   - user: ifadmin
     group: ifadmin
@@ -13,7 +17,7 @@ informatica:
     address: db.domain.com:1521
     servicename: servicename
   domain:
-    name: Dev1
+    name: "{{ environment_name }}"
     hostname: testserver
     port: 6005
     user: user
@@ -22,15 +26,14 @@ informatica:
   keystore_password: Password1
   serves_as_gateway: 1
   nodename: node1_test1
+  base_directory: "/informatica/{{ environment_name }}"
+  archive: /mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-x64.tar
+  key_file: /mnt/nfs/ansible/informatica/my.key
+  timezone: America/Los_Angeles
+  silentinput_properties_file: SilentInput.properties.j2
 
-informatica_archive: /mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-x64.tar
-informatica_key_file: /mnt/nfs/ansible/informatica/Farmers_Group_Inc_MultiOS_AE-DQAE-BDMA-BDGOV_v961_DEV_0124906_133622.key
-
-informatica_directory: /opt/informatica961/sw
-informatica_install_directory: /opt/informatica961/install_dir
-informatica_timezone: America/Los_Angeles
-
-informatica_silentinput_properties_file: SilentInput.properties.j2
+informatica_directory: "{{ informatica.base_directory }}/sw"
+informatica_install_directory: "{{ informatica.base_directory }}/install_dir"
 
 informatica_enable_usage_collection: 1
 

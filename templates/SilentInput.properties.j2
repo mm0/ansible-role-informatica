@@ -38,7 +38,7 @@ ENABLE_USAGE_COLLECTION={{ informatica_enable_usage_collection }}
 # The LICENSE_KEY_LOC property represents the absolute path and file name of the license key file.
 #     Set the property if you are installing or upgrading Informatica.
 
-LICENSE_KEY_LOC={{ informatica_directory }}/{{ informatica_key_file | basename }}
+LICENSE_KEY_LOC={{ informatica_directory }}/{{ informatica.key_file | basename }}
 
 
 # The USER_INSTALL_DIR property represents the directory in which to install the new version of Informatica.

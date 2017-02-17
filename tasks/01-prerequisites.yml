@@ -67,7 +67,7 @@
 
 - name: Grant crontab privilege to ifadmin
   lineinfile:
-    line: "ifadmin"
+    line: "{{ informatica.owner }}"
     state: present
     create: yes
     dest: /etc/cron.allow
@@ -84,7 +84,7 @@
   file:
     dest: /etc/localtime
     state: link
-    src: "/usr/share/zoneinfo/{{ informatica_timezone }}"
+    src: "/usr/share/zoneinfo/{{ informatica.timezone }}"
     owner: root
     group: root
     mode: 644

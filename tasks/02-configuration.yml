@@ -12,8 +12,8 @@
   file:
     state: directory
     dest: "{{ informatica_directory }}"
-    owner: "ifadmin"
-    group: "ifadmin"
+    owner: "{{ informatica.owner }}"
+    group: "{{ informatica.group }}"
     mode: 700
   become: yes
 
@@ -21,36 +21,26 @@
   file:
     state: directory
     dest: "{{ informatica_install_directory }}"
-    owner: "ifadmin"
-    group: "ifadmin"
+    owner: "{{ informatica.owner }}"
+    group: "{{ informatica.group }}"
     mode: 755
-  become: yes
-
-- name: Copy installer tar file to "{{ informatica_directory }}"
-  copy:
-    src: "{{ informatica_archive }}"
-    dest: "{{ informatica_directory }}"
-    owner: "ifadmin"
-    group: "ifadmin"
-    mode: 0644
-    remote_src: yes
   become: yes
 
 - name: Copy license key to "{{ informatica_directory }}"
   copy:
-    src: "{{ informatica_key_file }}"
+    src: "{{ informatica.key_file }}"
     dest: "{{ informatica_directory }}"
-    owner: "ifadmin"
-    group: "ifadmin"
+    owner: "{{ informatica.owner }}"
+    group: "{{ informatica.group }}"
     mode: 0644
     remote_src: yes
   become: yes
 
 - name: Extract the installer placed in "{{ informatica_directory }}"
   unarchive:
-    src: "{{ informatica_directory }}/{{ informatica_archive | basename }}"
+    src: "{{ informatica.archive }}"
     dest: "{{ informatica_directory }}"
     copy: no
-    owner: "ifadmin"
-    group: "ifadmin"
+    owner: "{{ informatica.owner }}"
+    group: "{{ informatica.group }}"
   become: yes
