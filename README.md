@@ -4,17 +4,31 @@ mm0.informatica
 [![Build Status](https://travis-ci.org/mm0/ansible-role-informatica.svg?branch=master)](https://travis-ci.org/mm0/ansible-role-informatica) [![Galaxy](https://img.shields.io/badge/galaxy-mm0.informatica-blue.svg?style=flat)](https://galaxy.ansible.com/mm0/informatica)
 
 
-An Ansible Role that configures and silently installs Informatica
+An Ansible Role that configures and silently installs Informatica.
+
+Informatica will be installed at `/informatica/{{ environment_name }}`
 
 Requirements
 ------------
 
-* Only compatible with RHEL 6.8
+* RHEL 6.8 (not compatible 7+)
+* Accessible License Key File Path (`informatica.key_file`)
+* DB credentials (`informatica.db`)
+* Environment Name of your choosing (`environment_name`)
+* Domain credentials, (`informatica.domain`)
+* Timezone (`informatica.timezone`)
+* Password (`informatica.keystore_password`)
+* Unique Nodename ( Defaults to `nodename: "node1_{{ environment_name }}`")
+
+* ~ 24GB of free space (half used temporarily during installation)
+* If you have a second volume, you can set `informatica_temp_directory` to have the installation process use a temp directory on a separate drive
+* Alternatively, you can set `informatica_root_directory` to the path to a directory with enough free space.
+* Installer Archive Present on server (`informatica.archive` | `"/mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-x64.tar"`)
 
 Role Variables
 --------------
 
-*General variables*
+*All variables*
 
 | Name              | Default Value       | Description          |
 |-------------------|---------------------|----------------------|
@@ -36,7 +50,7 @@ Role Variables
 | `informatica.keystore_password` | `Password1` | Informatica Keystore Password |
 | `informatica.serves_as_gateway` | `1` | Boolean, should serve as gateway node |
 | `informatica.nodename` | `node1_test1` | Name of node |
-| `informatica.base_directory` | `"/informatica/{{ environment_name }}"` | Base directory for installation of Informatica |
+| `informatica.base_directory` | `"{{ informatica_root_directory }}/{{ environment_name }}"` | Base directory for installation of Informatica |
 | `informatica.archive` | `"/mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-x64.tar"` | Location of Installer archive |
 | `informatica.key_file` | `"/mnt/nfs/ansible/informatica/my.key"` | Location of Key File |
 | `informatica.timezone` | `"America/Los_Angeles"` | Timezone for app |
@@ -46,7 +60,7 @@ Role Variables
 | `informatica_enable_usage_collection` | `1` | Required for silent install |
 | `informatica_encryption_key_directory` | `"{{ informatica_directory }}/isp/config/keys"` | Location of keys |
 | `informatica_temp_directory` | `"/tmp"` | Pointer to temp directory incase /tmp is full |
-
+| `informatica_root_directory` | `"/informatica"` | Root dir for all different environment installations of Informatica |
 
 
 Dependencies
@@ -75,11 +89,6 @@ Example Playbook
 vault_files/informatica.yml should contain:
 ```yaml
 informatica:
-  users:
-  - user: ifadmin
-    group: ifadmin
-  - user: ifuser
-    group: ifuser
   db:
     type: Oracle # Oracle/MSSQLServer/DB2/Sybase
     username: username
@@ -94,8 +103,6 @@ informatica:
     password: repo
     cnfrm_password: repo
   keystore_password: repo
-  serves_as_gateway: 1
-  nodename: node1_test1
 ```
 
 License

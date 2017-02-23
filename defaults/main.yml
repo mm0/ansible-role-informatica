@@ -1,7 +1,7 @@
 ---
 environment_name: Dev1
 
-informatica_root_directory: "/informatica"
+informatica_root_directory: "/opt/informatica961"
 
 # defaults file for informatica
 informatica:
@@ -27,7 +27,7 @@ informatica:
     cnfrm_password: password
   keystore_password: Password1
   serves_as_gateway: 1
-  nodename: node1_test1
+  nodename: "node1_{{ environment_name }}"
   base_directory: "{{ informatica_root_directory }}/{{ environment_name }}"
   archive: /mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-x64.tar
   key_file: /mnt/nfs/ansible/informatica/my.key
