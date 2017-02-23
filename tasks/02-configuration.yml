@@ -8,42 +8,24 @@
   with_items: "{{ informatica.users }}"
   become: yes
 
-- name: Create directories 1/2
+- name: Create directories
   file:
     state: directory
-    dest: "{{ informatica.base_directory }}"
+    dest:  "{{ item.path }}"
     owner: "{{ informatica.owner }}"
     group: "{{ informatica.group }}"
+    mode: "{{ item.mode }}"
+  become: yes
+  with_items:
+  - path: "{{ informatica_root_directory }}"
     mode: 0700
-  become: yes
-
-- name: Create directories 1/2
-  file:
-    state: directory
-    dest: "{{ informatica_root_directory }}"
-    owner: "{{ informatica.owner }}"
-    group: "{{ informatica.group }}"
+  - path: "{{ informatica.base_directory }}"
     mode: 0700
-  become: yes
-
-
-- name: Create directories 1/2
-  file:
-    state: directory
-    dest: "{{ informatica_directory }}"
-    owner: "{{ informatica.owner }}"
-    group: "{{ informatica.group }}"
+  - path: "{{ informatica_directory }}"
     mode: 0700
-  become: yes
+  - path: "{{ informatica_install_directory }}"
+    mode: 0755
 
-- name: Create directories 2/2
-  file:
-    state: directory
-    dest: "{{ informatica_install_directory }}"
-    owner: "{{ informatica.owner }}"
-    group: "{{ informatica.group }}"
-    mode: 755
-  become: yes
 
 - name: Copy license key to "{{ informatica_directory }}"
   copy:

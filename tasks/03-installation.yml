@@ -23,23 +23,14 @@
   - path: "{{ informatica_install_directory }}"
     mode: "0755"
 
-- name: Debug
-  lineinfile:
-    line: "#"
-    insertafter: "# Created 11/30/05"
-    dest: "{{informatica_directory}}/silentinstall.sh"
-  become: yes
-
-
-- name: Debug2
+- name: "In case we decide to upgrade"
   lineinfile:
     line: "USER_INSTALL_DIR={{informatica_install_directory}}"
     regexp: "^USER_INSTALL_DIR.*"
     dest: "{{informatica_directory}}/SilentInput_hotFix.properties"
   become: yes
 
-
-- name: Debug3
+- name: "In case we decide to upgrade 2"
   lineinfile:
     line: "ENABLE_USAGE_COLLECTION=1"
     regexp: "^ENABLE_USAGE_COLLECTION.*"
@@ -72,7 +63,7 @@
 
 #  And then start the service after installation as a daemon
 - name: "Finally, start the service (as a daemon)"
-  shell: "source /etc/rc.d/init.d/functions && daemon nohup ./infaservice.sh startup &"
+  shell: "source /etc/rc.d/init.d/functions && daemon 'nohup ./infaservice.sh startup &'"
   args:
     chdir: "{{ informatica_install_directory }}/tomcat/bin/"
     executable: /bin/bash
