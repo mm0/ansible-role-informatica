@@ -11,10 +11,29 @@
 - name: Create directories 1/2
   file:
     state: directory
+    dest: "{{ informatica.base_directory }}"
+    owner: "{{ informatica.owner }}"
+    group: "{{ informatica.group }}"
+    mode: 0700
+  become: yes
+
+- name: Create directories 1/2
+  file:
+    state: directory
+    dest: "{{ informatica_root_directory }}"
+    owner: "{{ informatica.owner }}"
+    group: "{{ informatica.group }}"
+    mode: 0700
+  become: yes
+
+
+- name: Create directories 1/2
+  file:
+    state: directory
     dest: "{{ informatica_directory }}"
     owner: "{{ informatica.owner }}"
     group: "{{ informatica.group }}"
-    mode: 700
+    mode: 0700
   become: yes
 
 - name: Create directories 2/2

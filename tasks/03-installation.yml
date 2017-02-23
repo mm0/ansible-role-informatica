@@ -11,19 +11,70 @@
 
 - name: "Update permissions"
   file:
-    path: "{{ item }}"
+    path: "{{ item.path }}"
     owner: "{{ informatica.owner }}"
     group: "{{ informatica.group }}"
     state: directory
     recurse: yes
-    mode: "o-rx"
+    mode: "{{ item.mode }}"
   with_items:
-    - "{{ informatica.base_directory }}"
+  - path: "{{ informatica_directory }}"
+    mode: "0700"
+  - path: "{{ informatica_install_directory }}"
+    mode: "0755"
+
+- name: Debug
+  lineinfile:
+    line: "#"
+    insertafter: "# Created 11/30/05"
+    dest: "{{informatica_directory}}/silentinstall.sh"
+  become: yes
+
+
+- name: Debug2
+  lineinfile:
+    line: "USER_INSTALL_DIR={{informatica_install_directory}}"
+    regexp: "^USER_INSTALL_DIR.*"
+    dest: "{{informatica_directory}}/SilentInput_hotFix.properties"
+  become: yes
+
+
+- name: Debug3
+  lineinfile:
+    line: "ENABLE_USAGE_COLLECTION=1"
+    regexp: "^ENABLE_USAGE_COLLECTION.*"
+    dest: "{{informatica_directory}}/SilentInput_hotFix.properties"
+  become: yes
 
 - name: "Run  silentinstall.sh from {{ informatica_directory }}"
   shell: ./silentinstall.sh
   args:
     chdir: "{{ informatica_directory }}"
+    executable: /bin/bash
   environment:
+  - LC_CTYPE: "en_US.UTF-8"
+  - LC_ALL: "en_US.UTF-8"
+  - LANG: "en_US.UTF-8"
   - IATEMPDIR: "{{ informatica_temp_directory }}"
+  - INFA_CODEPAGENAME: "UTF-8"
+  - LD_LIBRARY_PATH: "LD_LIBRARY_PATH==/usr/lib64:/usr/lib:/lib64:/lib:{{ informatica_install_directory }}/server/bin:{{ informatica_install_directory }}:{{ ansible_env.LD_LIBRARY_PATH | default('') }}:."
+  become_user: "{{ informatica.owner }}"
+  become: yes
+
+# Because of the way ansible works, the child process of a shell command will be killed after the command ends.  Therefore, we must make sure the service is stopped (it will be)
+- name: "Shutdown (it should already be crashed)"
+  shell: "./infaservice.sh shutdown"
+  args:
+    chdir: "{{ informatica_install_directory }}/tomcat/bin/"
+    executable: /bin/bash
+  become_user: "{{ informatica.owner }}"
+  become: yes
+
+#  And then start the service after installation as a daemon
+- name: "Finally, start the service (as a daemon)"
+  shell: "source /etc/rc.d/init.d/functions && daemon nohup ./infaservice.sh startup &"
+  args:
+    chdir: "{{ informatica_install_directory }}/tomcat/bin/"
+    executable: /bin/bash
+  become_user: "{{ informatica.owner }}"
   become: yes

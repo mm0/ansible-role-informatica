@@ -1,6 +1,8 @@
 ---
 environment_name: Dev1
 
+informatica_root_directory: "/informatica"
+
 # defaults file for informatica
 informatica:
   owner: ifadmin
@@ -26,7 +28,7 @@ informatica:
   keystore_password: Password1
   serves_as_gateway: 1
   nodename: node1_test1
-  base_directory: "/informatica/{{ environment_name }}"
+  base_directory: "{{ informatica_root_directory }}/{{ environment_name }}"
   archive: /mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-x64.tar
   key_file: /mnt/nfs/ansible/informatica/my.key
   timezone: America/Los_Angeles
@@ -37,5 +39,5 @@ informatica_install_directory: "{{ informatica.base_directory }}/install_dir"
 
 informatica_enable_usage_collection: 1
 
-informatica_encryption_key_directory: "{{ informatica_directory }}/isp/config/keys"
+informatica_encryption_key_directory: "{{ informatica_install_directory }}/isp/config/keys"
 informatica_temp_directory: "/tmp"
