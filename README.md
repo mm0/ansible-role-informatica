@@ -20,7 +20,7 @@ Requirements
 * Password (`informatica.keystore_password`)
 * Unique Nodename ( Defaults to `nodename: "node1_{{ environment_name }}`")
 
-* ~ 24GB of free space (half used temporarily during installation)
+* ~ 40GB of free space (used temporarily during installation as well as to extract the installer and hold the installer)
 * If you have a second volume, you can set `informatica_temp_directory` to have the installation process use a temp directory on a separate drive
 * Alternatively, you can set `informatica_root_directory` to the path to a directory with enough free space.
 * Installer Archive Present on server (`informatica.archive` | `"/mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-x64.tar"`)

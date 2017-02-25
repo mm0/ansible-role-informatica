@@ -1,0 +1,114 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          informatica_{{ environment_name }}
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: initscript for informatica
+# Description:       This file should be used to construct scripts to be
+#                    placed in /etc/init.d.
+### END INIT INFO
+
+# Do NOT "set -e"
+
+NAME=informatica_{{ environment_name }}
+DAEMON="{{ informatica_install_directory }}/tomcat/bin/infaservice.sh"
+SCRIPTNAME=/etc/init.d/$NAME
+
+RETVAL=0
+
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 0
+
+# Read configuration variable file if it is present
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
+. /etc/rc.d/init.d/functions
+
+usage ()
+{
+    echo "Usage: service $NAME {start|stop|status|restart|try-restart|force-reload}"
+    RETVAL=1
+}
+
+
+start ()
+{
+    if [ -f "/var/lock/subsys/$NAME" ]; then
+        `cat /var/lock/subsys/$NAME` && return 0
+    fi
+    echo -n $"Starting $NAME: "
+    su {{  informatica.owner }} -c "$DAEMON startup "
+    ret=$?
+    count=50
+
+    while [ "$count" -gt "0" ] ; do
+        echo $count
+        if ! nc -z localhost 6008 < /dev/null ; then
+            count=$(expr $count - 1)
+            sleep 5;
+        else
+            count=-1
+            [ $ret -eq "0" ] && touch /var/lock/subsys/$NAME
+             echo
+            return $ret
+        fi
+    done
+    echo "Failed"
+    return $ret
+
+}
+
+stop ()
+{
+    [ -f /var/lock/subsys/$NAME ] || return 0
+    count=20
+    echo -n "Stopping $NAME: "
+    su {{ informatica.owner }} -c "$DAEMON shutdown"
+    while [ "$count" -gt 0 ]; do
+
+        proc=`ps aux | grep -c {{ informatica_install_directory }}`
+        if [ $proc -eq "0" ] ; then
+            count=-1
+        else
+            count=$(expr $count - 1)
+            sleep 5
+        fi
+    done
+    echo
+    rm -f /var/lock/subsys/$NAME
+    return 0
+}
+
+restart ()
+{
+    stop
+    start
+}
+
+status ()
+{
+    if [ -f "/var/lock/subsys/$NAME" ]; then
+        echo "Running.."
+    return 0
+    fi
+    echo "Stopped"
+    return 0
+}
+case "$1" in
+    start|stop|restart|condrestart|try-restart|force-reload)
+        [ `id -u` != "0" ] && exit 4 ;;
+esac
+
+case "$1" in
+    start) start; RETVAL=$? ;;
+    stop) stop; RETVAL=$? ;;
+    status) status ; RETVAL=$? ;;
+    restart) restart; RETVAL=$? ;;
+    reload) RETVAL=3 ;;
+    condrestart|try-restart|force-reload) condrestart; RETVAL=$? ;;
+    *) usage ; RETVAL=2 ;;
+esac
+
+exit $RETVAL

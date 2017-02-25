@@ -18,13 +18,13 @@
   become: yes
   with_items:
   - path: "{{ informatica_root_directory }}"
-    mode: 0700
+    mode: "0700"
   - path: "{{ informatica.base_directory }}"
-    mode: 0700
+    mode: "0700"
   - path: "{{ informatica_directory }}"
-    mode: 0700
+    mode: "0700"
   - path: "{{ informatica_install_directory }}"
-    mode: 0755
+    mode: "0755"
 
 
 - name: Copy license key to "{{ informatica_directory }}"

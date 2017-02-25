@@ -1,4 +1,19 @@
 ---
+- name: "Check required directories and files exist"
+  stat: path="{{ item }}" get_md5=false get_checksum=false
+  register: initial_file_check
+  with_items:
+  - "{{ informatica_root_directory }}"
+  - "{{ informatica.archive }}"
+  - "{{ informatica.key_file}}"
+  become: yes
+
+- name: "Fail when required directories do not exist"
+  fail:
+    msg: "Required Installation File or Directory is missing: {{ item.item }}"
+  when: "{{ item.stat.exists | bool}} == false"
+  with_items: "{{ initial_file_check.results }}"
+
 - name: Enable yum repo for installation of optional (required) packages
   yum:
     enablerepo: "{{ item.repo }}"
