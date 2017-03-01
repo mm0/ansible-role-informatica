@@ -45,18 +45,26 @@
   become: yes
 
 - name: "Oracle Client - Run installer"
-  shell:  "./runInstaller -silent -ignoreSysPrereqs -ignorePrereq -responseFile {{ informatica.oracle_client.unarchive_directory}}/client/response/response.rsp"
+  shell:  "./runInstaller -silent -ignoreSysPrereqs -ignorePrereq -force -waitforcompletion -responseFile {{ informatica.oracle_client.unarchive_directory}}/client/response/response.rsp"
   args:
     chdir: "{{ informatica.oracle_client.unarchive_directory}}/client"
     executable: /bin/bash
   become_user: "oracle"
   become: yes
 
-#- name: "Oracle Client - orainstRoot.sh"
-#  shell:  "{{ item }}"
-#  args:
-#    executable: /bin/bash
-#  become: yes
-#  with_items:
-#  - /u00/app/oraInventory/orainstRoot.sh
-#  - /u00/app/oracle/product/11.2.0/client_1/root.sh
+- name: "Oracle Client - check shell scripts (only one available after first install"
+  stat:
+    path: "{{ item }}"
+  become: yes
+  register: scripts
+  with_items:
+  - /u00/app/oraInventory/orainstRoot.sh
+  - /u00/app/oracle/product/11.2.0/client_1/root.sh
+
+- name: "Oracle Client - orainstRoot.sh"
+  shell:  "{{ item.item }}"
+  args:
+    executable: /bin/bash
+  become: yes
+  when: "{{ item.stat.exists }}"
+  with_items: "{{ scripts.results }}"

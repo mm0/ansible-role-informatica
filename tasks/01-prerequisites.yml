@@ -45,7 +45,7 @@
   wait_for:
     port: "{{ item }}"
     state: stopped
- when: not skip_port_check
+  when: not skip_port_check
   with_items:
   - 6005
   - 6006

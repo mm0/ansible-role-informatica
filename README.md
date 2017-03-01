@@ -8,6 +8,16 @@ An Ansible Role that configures and silently installs Informatica.
 
 Informatica will be installed at `/informatica/{{ environment_name }}`
 
+There is a minor issue with the installed informatica service running post-installation.
+It can be started by running a second ansible ad-hoc call (*where Dev2={{ environment_name }}*):
+```bash
+ansible -m service 'rh68[0]' -a 'name=informatica_Dev2 state=started'
+```
+or by logging into the server and running:
+```bash
+sudo service informatica_Dev2 start
+```
+
 Requirements
 ------------
 
@@ -19,20 +29,30 @@ Requirements
 * Timezone (`informatica.timezone`)
 * Password (`informatica.keystore_password`)
 * Unique Nodename ( Defaults to `nodename: "node1_{{ environment_name }}`")
-
+* Hostname must be set (see below)
 * ~ 40GB of free space (used temporarily during installation as well as to extract the installer and hold the installer)
 * If you have a second volume, you can set `informatica_temp_directory` to have the installation process use a temp directory on a separate drive
 * Alternatively, you can set `informatica_root_directory` to the path to a directory with enough free space.
 * Installer Archive Present on server (`informatica.archive` | `"/mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-x64.tar"`)
 
 
-*The following files must be present on server:*
+*The following variables must be configured and the corresponding files present on target server:*
 
 | Ansible Variable(s)  | Default Value       | Description          |
 |-------------------|---------------------|----------------------|
 | `informatica.archive` | `"/mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-x64.tar"` | Location of Installer archive |
 | `informatica.key_file` | `"/mnt/nfs/ansible/informatica/my.key"` | Location of Key File |
 | `informatica.oracle_client.archive` | `"/mnt/nfs/ansible/informatica/linux.x64_11gR2_client.zip"` | Installer location for oracle client |
+
+
+*The following variables must be configured:*
+
+| Ansible Variable(s)  | Default Value       | Description          |
+|-------------------|---------------------|----------------------|
+| `informatica.oracle_client.hostname` | `default` | Set this to the hostname of the server you are installing the client on..hostname
+| `informatica.db.*` | `See below` | configure Domain params |
+| `informatica.keystore_password` | `See below` | Create a keystore password |
+
 
 Role Variables
 --------------

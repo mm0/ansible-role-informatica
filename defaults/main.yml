@@ -35,6 +35,7 @@ informatica:
     archive: /mnt/nfs/ansible/informatica/linux.x64_11gR2_client.zip
     destination: /u00/app/oracle
     unarchive_directory: /home/oracle/
+    hostname: rh68test1
 
   key_file: /mnt/nfs/ansible/informatica/my.key
   timezone: America/Los_Angeles
