@@ -12,6 +12,7 @@ informatica:
     group: ifadmin
   - user: ifuser
     group: ifuser
+
   db:
     type: Oracle # Oracle/MSSQLServer/DB2/Sybase
     username: test
@@ -30,6 +31,11 @@ informatica:
   nodename: "node1_{{ environment_name }}"
   base_directory: "{{ informatica_root_directory }}/{{ environment_name }}"
   archive: /mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-x64.tar
+  oracle_client:
+    archive: /mnt/nfs/ansible/informatica/linux.x64_11gR2_client.zip
+    destination: /u00/app/oracle
+    unarchive_directory: /home/oracle/
+
   key_file: /mnt/nfs/ansible/informatica/my.key
   timezone: America/Los_Angeles
   silentinput_properties_file: SilentInput.properties.j2

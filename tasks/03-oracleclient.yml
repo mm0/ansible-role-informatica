@@ -1,0 +1,62 @@
+---
+- name: Oracle Client - Create required groups
+  group:
+    name: "{{ item }}"
+  with_items:
+  - oracle
+  - oinstall
+  become: yes
+
+- name: Oracle Client - Create required users
+  user:
+    name: "oracle"
+    groups: "oracle,oinstall"
+    home: "{{ informatica.oracle_client.unarchive_directory}}"
+  become: yes
+
+- name: Oracle Client - Create directories
+  file:
+    state: directory
+    dest:  "{{ item.path }}"
+    owner: "oracle"
+    group: "oinstall"
+    mode: "0755"
+  become: yes
+  with_items:
+  - path: "{{ informatica.oracle_client.destination }}"
+  - path: "/u00/app/oraInventory"
+  - path: "{{ informatica.oracle_client.unarchive_directory}}/client/response/"
+
+- name: Oracle Client - Extract the installer
+  unarchive:
+    src: "{{ informatica.oracle_client.archive }}"
+    dest: "{{ informatica.oracle_client.unarchive_directory}}"
+    copy: no
+    owner: "oracle"
+    group: "oinstall"
+  become: yes
+
+- name: Oracle Client - Generate the response file
+  template:
+    dest: "{{ informatica.oracle_client.unarchive_directory}}/client/response/response.rsp"
+    src: "response.rsp.j2"
+    owner: "oracle"
+    group: "oinstall"
+  become: yes
+
+- name: "Oracle Client - Run installer"
+  shell:  "./runInstaller -silent -ignoreSysPrereqs -ignorePrereq -responseFile {{ informatica.oracle_client.unarchive_directory}}/client/response/response.rsp"
+  args:
+    chdir: "{{ informatica.oracle_client.unarchive_directory}}/client"
+    executable: /bin/bash
+  become_user: "oracle"
+  become: yes
+
+#- name: "Oracle Client - orainstRoot.sh"
+#  shell:  "{{ item }}"
+#  args:
+#    executable: /bin/bash
+#  become: yes
+#  with_items:
+#  - /u00/app/oraInventory/orainstRoot.sh
+#  - /u00/app/oracle/product/11.2.0/client_1/root.sh

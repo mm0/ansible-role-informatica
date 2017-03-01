@@ -25,6 +25,15 @@ Requirements
 * Alternatively, you can set `informatica_root_directory` to the path to a directory with enough free space.
 * Installer Archive Present on server (`informatica.archive` | `"/mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-x64.tar"`)
 
+
+*The following files must be present on server:*
+
+| Ansible Variable(s)  | Default Value       | Description          |
+|-------------------|---------------------|----------------------|
+| `informatica.archive` | `"/mnt/nfs/ansible/informatica/961HF3_Server_Installer_linux-x64.tar"` | Location of Installer archive |
+| `informatica.key_file` | `"/mnt/nfs/ansible/informatica/my.key"` | Location of Key File |
+| `informatica.oracle_client.archive` | `"/mnt/nfs/ansible/informatica/linux.x64_11gR2_client.zip"` | Installer location for oracle client |
+
 Role Variables
 --------------
 
@@ -61,7 +70,9 @@ Role Variables
 | `informatica_encryption_key_directory` | `"{{ informatica_directory }}/isp/config/keys"` | Location of keys |
 | `informatica_temp_directory` | `"/tmp"` | Pointer to temp directory incase /tmp is full |
 | `informatica_root_directory` | `"/informatica"` | Root dir for all different environment installations of Informatica |
-
+| `informatica.oracle_client.archive` | `"/mnt/nfs/ansible/informatica/linux.x64_11gR2_client.zip"` | Installer location for oracle client |
+| `informatica.oracle_client.destination` | `"/u00/app/oracle"` | Destination location for oracle client |
+| `informatica.oracle_client.unarchive_directory` | `"/home/oracle"` | Directory used for oracle client configuration pre-install |
 
 Dependencies
 ------------

@@ -1,0 +1,8 @@
+oracle.install.responseFileVersion=/oracle/install/rspfmt_clientinstall_response_schema_v11_2_0
+ORACLE_HOSTNAME={{ informatica.db.address | regex_replace('^(.*):.*$', '\\1') }}
+UNIX_GROUP_NAME=oinstall
+INVENTORY_LOCATION=/u00/app/oraInventory
+SELECTED_LANGUAGES=en
+ORACLE_HOME={{ informatica.oracle_client.destination }}/product/11.2.0/client_1
+ORACLE_BASE={{ informatica.oracle_client.destination}}
+oracle.install.client.installType=Administrator

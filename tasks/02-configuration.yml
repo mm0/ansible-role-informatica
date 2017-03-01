@@ -25,7 +25,10 @@
     mode: "0700"
   - path: "{{ informatica_install_directory }}"
     mode: "0755"
-
+  - path: "{{ informatica.oracle_client.destination }}"
+    mode: "0755"
+  - path: "/data/infadm"
+    mode: "0700"
 
 - name: Copy license key to "{{ informatica_directory }}"
   copy:

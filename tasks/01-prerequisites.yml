@@ -5,7 +5,9 @@
   with_items:
   - "{{ informatica_root_directory }}"
   - "{{ informatica.archive }}"
+  - "{{ informatica.oracle_client.archive }}"
   - "{{ informatica.key_file}}"
+
   become: yes
 
 - name: "Fail when required directories do not exist"
@@ -21,7 +23,7 @@
   become: yes
   with_items:
   - repo: rhel-6-server-optional-rpms
-    package: sharutils
+    package: sharutils # used to uuencode
 
 - name: Install required packages for Informatica
   package:
@@ -43,6 +45,7 @@
   wait_for:
     port: "{{ item }}"
     state: stopped
+ when: not skip_port_check
   with_items:
   - 6005
   - 6006
@@ -62,6 +65,7 @@
   wait_for:
     port: "{{ item }}"
     state: stopped
+  when: not skip_port_check
   with_sequence: start=6013 end=6113 stride=1
 
 - name: Create required groups

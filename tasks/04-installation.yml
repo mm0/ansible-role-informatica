@@ -18,14 +18,6 @@
     mode: "0744"
   become: yes
 
-# TODO: Determine if this is needed with yes |
-#- name: "Minor Install fix"
-#  replace:
-#    replace: "export exit_value_unjar_esd=0 ; return 0"
-#    regexp: "^\\s+check_for_extract_only_option$"
-#    dest: "{{informatica_directory}}/unjar_esd.sh"
-#  become: yes
-
 - name: "Update permissions"
   file:
     path: "{{ item.path }}"
@@ -41,7 +33,7 @@
     mode: "0775"
 
 - name: "Run  silentinstall.sh from {{ informatica_directory }}"
-  shell:  "yes | ./silentinstall.sh && "
+  shell:  "(yes | ./silentinstall.sh | true) || service informatica_{{ environment_name }} stop"
   args:
     chdir: "{{ informatica_directory }}"
     executable: /bin/bash
@@ -57,21 +49,28 @@
 
 # At this point, it is expected for the Application launched by the shell block above to be killed due ot ansible exiting the session
 # Ensure it is stopped
-- name: "Stop"
-  service:
-    name: "informatica_{{ environment_name }}"
-    state: stopped
-  become: yes
-  tags:
-  - shutdown
-
-# Start 'er up
-- name: "Startup"
-  service:
-    name: "informatica_{{ environment_name }}"
-    state: started
-  become: yes
-  tags:
-  - start
-  - startup
+# This is not working correctly, but this seems to work:
+#ansible -m service 'rh68[0]' -a 'name=informatica_Dev2 state=started'
+#rh68test1.techlab.com | SUCCESS => {
+#    "changed": true,
+#    "name": "informatica_Dev2",
+#    "state": "started"
+#}
+#- name: "Stop"
+#  service:
+#    name: "informatica_{{ environment_name }}"
+#    state: stopped
+#  become: yes
+#  tags:
+#  - shutdown
+#
+## Start 'er up
+#- name: "Startup"
+#  service:
+#    name: "informatica_{{ environment_name }}"
+#    state: started
+#  become: yes
+#  tags:
+#  - start
+#  - startup
 

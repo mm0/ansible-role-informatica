@@ -6,5 +6,8 @@
 - name: Configuration
   include: 02-configuration.yml
 
-- name: Installation
-  include: 03-installation.yml
+- name: Oracle CLient
+  include: 03-oracleclient.yml
+
+- name: Informatica Installation
+  include: 04-installation.yml
